@@ -5,8 +5,8 @@ class AbstractWorker(metaclass=ABCMeta):
     """Clase abstracta del worker, de la que derivan el puller y  el pusher"""
     __config = {}
 
-    def __init__(self, config):
-        self.set_config(config)
+    def __init__(self,config={}):
+        pass
 
     def set_config(self, config):
         self.config = config
@@ -25,3 +25,11 @@ class AbstractWorker(metaclass=ABCMeta):
 
     def check(self):
         pass
+
+class Puller(AbstractWorker):
+    pass
+class Pusher_DB(AbstractWorker):
+    pass
+class Pusher_EL(AbstractWorker):
+    pass
+
