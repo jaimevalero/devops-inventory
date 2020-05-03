@@ -6,6 +6,7 @@ class AbstractWorker(metaclass=ABCMeta):
     __config = {}
 
     def __init__(self,config={}):
+        if config != {} : self.set_config(config)
         pass
 
     def set_config(self, config):

@@ -19,8 +19,8 @@ class Service():
         start_time = time.time()
 
         def inner(*args, **kwargs):
-            print(f"""Arguments for args: {args}""")
-            print(f"""Arguments for kwargs: {kwargs}""")
+            print(f"""f Arguments for args: {args}""")
+            print(f"""f Arguments for kwargs: {kwargs}""")
             return func(*args, **kwargs)
 
         results = inner
@@ -36,19 +36,28 @@ class Service():
         self.pusher_el.set_config(self.config)
 
 
-    @debug
     def __init__(self, config={}):
         self.puller = worker.Puller(config)
         self.pusher_db = worker.Pusher_DB(config)
         self.pusher_el = worker.Pusher_EL(config)
         self.set_config(config)
 
-
+    @debug
     def register(self,  worker ):
-        if   isinstance(worker, worker.Puller)    : self.puller    = worker
-        elif isinstance(worker, worker.Pusher_DB) : self.pusher_db = worker
-        elif isinstance(worker, worker.Pusher_EL) : self.pusher_el = worker
-        else : raise Exception('spam', 'eggs')
+        print("worker ")
+
+        if   isinstance(worker, worker.Puller)    :
+            print("Registramos Puller ")
+            self.puller    = worker
+        elif isinstance(worker, worker.Pusher_DB) :
+            print("Registramos Pusher_DB ")
+            self.pusher_db = worker
+        elif isinstance(worker, worker.Pusher_EL) :
+            print("Registramos Pusher_EL ")
+            self.pusher_el = worker
+        else :
+            print("No hemos encontrado el tipo de  ", worker)
+            raise Exception('spam', 'eggs')
 
     def run(self ):
         puller.run()
@@ -60,8 +69,10 @@ class Service():
         pusher_db.check()
         pusher_el.check()
 
-if __name__ == "__main__":
+
+"""if __name__ == "__main__":
     config = { "1" : 2 }
     print('Ejecutando como programa principal')
     sev = Service(config=config)
     #sev.run()
+"""
