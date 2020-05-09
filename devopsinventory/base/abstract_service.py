@@ -9,10 +9,16 @@ from devopsinventory.base.abstract_worker import AbstractWorker
 
 
 class Service():
-
+    """ Class that represents the inventory process of a CI.
+    Its a composite of 3 workers, that performs the push and pull of the CI info"""
+    
+    # Objeto que saca la info de la plataforma externa (github, AD, ....)
     puller: AbstractWorker
+    # Objeto que inserta la info extraida en BD SQL (mysql por defecto)
     pusher_db: AbstractWorker
+     # Objeto que inserta la info extraida en BD no SQL (EL por defecto)
     pusher_el: AbstractWorker
+    # Configuracion con endpoint y credentials    
     config = {}
 
     def debug(func):
