@@ -4,6 +4,7 @@ from __future__ import print_function
 import time
 
 import devopsinventory.base.abstract_worker as worker
+import devopsinventory.base.utilities
 from devopsinventory.base.abstract_worker import AbstractWorker
 
 
@@ -37,6 +38,7 @@ class Service():
 
 
     def __init__(self, config={}):
+
         self.puller = worker.Puller(config)
         self.pusher_db = worker.Pusher_DB(config)
         self.pusher_el = worker.Pusher_EL(config)
@@ -44,25 +46,25 @@ class Service():
 
     @debug
     def register(self,  worker ):
-        print("worker ")
 
-        if   isinstance(worker, worker.Puller)    :
+        if   isinstance(worker , ( devopsinventory.base.abstract_worker.Puller)) :
             print("Registramos Puller ")
-            self.puller    = worker
-        elif isinstance(worker, worker.Pusher_DB) :
+            self.puller = worker
+        elif isinstance(worker , ( devopsinventory.base.abstract_worker.Pusher_DB)) :
             print("Registramos Pusher_DB ")
             self.pusher_db = worker
-        elif isinstance(worker, worker.Pusher_EL) :
+        elif isinstance(worker , ( devopsinventory.base.abstract_worker.Pusher_EL)) :
             print("Registramos Pusher_EL ")
             self.pusher_el = worker
         else :
             print("No hemos encontrado el tipo de  ", worker)
             raise Exception('spam', 'eggs')
 
+    @debug
     def run(self ):
-        puller.run()
-        pusher_db.run()
-        pusher_el.run()
+        self.puller.run()
+        self.pusher_db.run()
+        self.pusher_el.run()
 
     def check(self):
         puller.check()
